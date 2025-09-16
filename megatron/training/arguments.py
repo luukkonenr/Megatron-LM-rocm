@@ -2574,6 +2574,13 @@ def _add_moe_args(parser):
                        help='Degree of expert model parallelism. Default is None, which will be set to the value of --tensor-model-paralle-size.')
     group.add_argument('--num-experts', type=int, default=None,
                        help='Number of Experts in MoE (None means no MoE)')
+    group.add_argument('--moe-router-dtype', type=str, 
+                    choices=['fp32', 'fp64'], 
+                    default=None,
+                    help='Data type for routing computation and expert output weighted averaging. '
+                        'Fp32/fp64 enhances numerical stability, especially with numerous experts. '
+                        'The perf impact should be negligible when used with permute fusion. '
+    )
     group.add_argument('--moe-layer-freq', type=moe_freq_type, default=1,
                        help='Frequency between MoE layers and Dense layers. Accepts either: '
                             '- An integer N: Represents a 1:N ratio, meaning one expert layer for every N-1 dense layers '

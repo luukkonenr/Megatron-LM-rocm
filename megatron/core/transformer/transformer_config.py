@@ -97,6 +97,11 @@ class TransformerConfig(ModelParallelConfig):
     """Store the input of MLP activation function in FP8 for backprop to save memory.
     The stored input is casted back to the original precision before backprop compuatation."""
 
+    moe_router_dtype: Optional[str] = None
+    """Data type for routing and expert output weighted averaging. Using fp32 or fp64 can
+    improve stability especially when the number of experts is large (e.g. finegrained-moe).
+    None means no changes for dtype."""
+
     num_moe_experts: Optional[int] = None
     """Number of experts to use for MoE layer. When set, it replaces MLP with MoE layer. Set to None
     for no MoE."""

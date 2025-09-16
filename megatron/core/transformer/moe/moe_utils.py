@@ -297,7 +297,7 @@ def unpermute(
         return fused_unpermute(permuted_tokens, sorted_indices, probs, restore_shape)
 
     _, hidden = restore_shape
-
+    input_dtype = permuted_tokens.dtype
     if probs is not None:
         assert routing_map is not None, "Mask must be provided to permute the probs."
         permuted_probs = probs.T.contiguous().masked_select(routing_map.T.contiguous())
@@ -305,11 +305,11 @@ def unpermute(
 
     # Create an output tensor filled with zeros
     output_tokens = torch.zeros(
-        restore_shape, device=permuted_tokens.device, dtype=permuted_tokens.dtype
+        restore_shape, dtype=permuted_tokens.dtype, device=permuted_tokens.device
     )
     # Scatter add the permuted_input back to the original positions
     output_tokens.scatter_add_(0, sorted_indices.unsqueeze(1).expand(-1, hidden), permuted_tokens)
-    return output_tokens
+    return output_tokens.to(dtype=input_dtype)
 
 
 def sort_chunks_by_idxs(

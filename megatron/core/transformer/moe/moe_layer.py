@@ -143,5 +143,4 @@ class MoELayer(BaseMoELayer):
             output, mlp_bias = tensor_parallel.checkpoint(custom_forward, False, hidden_states)
         else:
             output, mlp_bias = custom_forward(hidden_states)
-
         return output, mlp_bias
