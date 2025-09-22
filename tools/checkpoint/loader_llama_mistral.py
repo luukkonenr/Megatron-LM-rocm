@@ -319,6 +319,7 @@ def load_args_from_checkpoint(args):
     args.vocab_size = model_args["vocab_size"]
     args.padded_vocab_size = model_args["vocab_size"]
     args.ffn_hidden_size = model_args["intermediate_size"]
+    args.rotary_base = model_args["rope_theta"]
 
     if "num_key_value_heads" in model_args:
         args.group_query_attention = True

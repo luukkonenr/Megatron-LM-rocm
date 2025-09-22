@@ -92,6 +92,7 @@ def _load_checkpoint(queue, args):
 
     margs.use_legacy_models = False
     margs.transformer_impl = args.loader_transformer_impl
+    margs.tensor_model_parallel_size = checkpoint_args.tensor_model_parallel_size
 
     def check_for_arg(arg_name, default=None):
         if getattr(margs, arg_name, None) is None:
